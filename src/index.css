@@ -69,11 +69,54 @@
   }
 }
 
+/* Leaflet map container needs explicit height */
 .leaflet-container {
   width: 100%;
   height: 100%;
 }
 
+/* Custom shelter marker styling */
+.custom-shelter-marker {
+  background: transparent;
+  border: none;
+}
+
+/* Shelter popup styling */
+.shelter-popup .leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.shelter-popup .leaflet-popup-content {
+  margin: 0;
+  min-width: 280px;
+}
+
+.shelter-popup .leaflet-popup-tip {
+  background: white;
+}
+
+/* Crisis mode map styling */
+.crisis-map {
+  filter: none;
+}
+
+.crisis-map .leaflet-tile {
+  filter: grayscale(30%) contrast(1.1);
+}
+
+/* Crisis mode banner animation */
+@keyframes crisis-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.crisis-mode .animate-pulse {
+  animation: crisis-pulse 1.5s ease-in-out infinite;
+}
+
+/* Custom scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
