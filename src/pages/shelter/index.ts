@@ -1,0 +1,1 @@
+export { ShelterDetailPage } from './ShelterDetailPage';
