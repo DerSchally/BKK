@@ -11,10 +11,23 @@ import { NotFoundPage } from '@/pages/NotFoundPage';
 // Citizen Pages
 import { MapPage, InfoPage, PreparationPage, FAQPage } from '@/pages/citizen';
 
-// Role-specific Dashboards
-import { OperatorDashboard } from '@/pages/operator';
-import { AdminDashboard } from '@/pages/admin';
-import { CrisisDashboard } from '@/pages/crisis';
+// Shelter Pages
+import { ShelterDetailPage } from '@/pages/shelter';
+
+// Operator Pages
+import { OperatorDashboard, ShelterListPage } from '@/pages/operator';
+
+// Admin Pages
+import {
+  AdminDashboard,
+  ApprovalsPage,
+  AdminSheltersPage,
+  AnalyticsPage,
+  UserManagementPage,
+} from '@/pages/admin';
+
+// Crisis Manager Pages
+import { CrisisDashboard, BroadcastPage, CrisisLogsPage } from '@/pages/crisis';
 
 function App() {
   return (
@@ -51,10 +64,7 @@ function App() {
             path="/operator/shelters"
             element={
               <OperatorRoute>
-                <div className="p-4">
-                  <h1 className="text-2xl font-bold">Meine Schutzräume</h1>
-                  <p className="text-slate-600">Placeholder - wird in Phase 4 implementiert</p>
-                </div>
+                <ShelterListPage />
               </OperatorRoute>
             }
           />
@@ -64,7 +74,7 @@ function App() {
               <OperatorRoute>
                 <div className="p-4">
                   <h1 className="text-2xl font-bold">Berichte</h1>
-                  <p className="text-slate-600">Placeholder - wird in Phase 4 implementiert</p>
+                  <p className="text-slate-600">Berichtsfunktionen werden in einer zukünftigen Version verfügbar sein.</p>
                 </div>
               </OperatorRoute>
             }
@@ -85,10 +95,7 @@ function App() {
             path="/admin/approvals"
             element={
               <AdminRoute>
-                <div className="p-4">
-                  <h1 className="text-2xl font-bold">Genehmigungen</h1>
-                  <p className="text-slate-600">Placeholder - wird in Phase 5 implementiert</p>
-                </div>
+                <ApprovalsPage />
               </AdminRoute>
             }
           />
@@ -96,10 +103,7 @@ function App() {
             path="/admin/shelters"
             element={
               <AdminRoute>
-                <div className="p-4">
-                  <h1 className="text-2xl font-bold">Schutzräume verwalten</h1>
-                  <p className="text-slate-600">Placeholder - wird in Phase 5 implementiert</p>
-                </div>
+                <AdminSheltersPage />
               </AdminRoute>
             }
           />
@@ -107,10 +111,7 @@ function App() {
             path="/admin/analytics"
             element={
               <AdminRoute>
-                <div className="p-4">
-                  <h1 className="text-2xl font-bold">Analysen</h1>
-                  <p className="text-slate-600">Placeholder - wird in Phase 6 implementiert</p>
-                </div>
+                <AnalyticsPage />
               </AdminRoute>
             }
           />
@@ -118,10 +119,7 @@ function App() {
             path="/admin/users"
             element={
               <AdminRoute>
-                <div className="p-4">
-                  <h1 className="text-2xl font-bold">Benutzerverwaltung</h1>
-                  <p className="text-slate-600">Placeholder - wird in Phase 6 implementiert</p>
-                </div>
+                <UserManagementPage />
               </AdminRoute>
             }
           />
@@ -141,10 +139,7 @@ function App() {
             path="/crisis/broadcast"
             element={
               <CrisisRoute>
-                <div className="p-4">
-                  <h1 className="text-2xl font-bold">Broadcast-System</h1>
-                  <p className="text-slate-600">Placeholder - wird in Phase 7 implementiert</p>
-                </div>
+                <BroadcastPage />
               </CrisisRoute>
             }
           />
@@ -152,10 +147,7 @@ function App() {
             path="/crisis/logs"
             element={
               <CrisisRoute>
-                <div className="p-4">
-                  <h1 className="text-2xl font-bold">Krisenprotokolle</h1>
-                  <p className="text-slate-600">Placeholder - wird in Phase 7 implementiert</p>
-                </div>
+                <CrisisLogsPage />
               </CrisisRoute>
             }
           />
@@ -163,15 +155,7 @@ function App() {
 
         {/* Shelter detail route - accessible to all authenticated users */}
         <Route element={<MainLayout />}>
-          <Route
-            path="/shelter/:id"
-            element={
-              <div className="p-4">
-                <h1 className="text-2xl font-bold">Schutzraum Details</h1>
-                <p className="text-slate-600">Placeholder - wird in Phase 4 implementiert</p>
-              </div>
-            }
-          />
+          <Route path="/shelter/:id" element={<ShelterDetailPage />} />
         </Route>
 
         {/* 404 fallback */}
