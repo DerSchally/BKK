@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { MapContainer, TileLayer, useMap, ZoomControl, Circle } from 'react-leaflet';
 import type { Map as LeafletMap } from 'leaflet';
 import { shelters } from '@/data';
@@ -8,7 +8,6 @@ import { FilterPanel } from './FilterPanel';
 import { SearchBox } from './SearchBox';
 import { useUIStore } from '@/store';
 import { cn } from '@/lib/utils';
-import { useEffect } from 'react';
 
 // Germany center coordinates
 const GERMANY_CENTER: [number, number] = [51.1657, 10.4515];
@@ -16,6 +15,8 @@ const GERMANY_ZOOM = 6;
 
 // Component to handle map view changes
 function MapController({
+  center,
+  zoom,
   selectedShelter,
 }: {
   center?: Coordinates;
@@ -31,15 +32,17 @@ function MapController({
         14,
         { duration: 1 }
       );
+    } else if (center && zoom) {
+      map.flyTo([center.lat, center.lng], zoom, { duration: 1 });
     }
-  }, [selectedShelter, map]);
+  }, [center, zoom, selectedShelter, map]);
 
   return null;
 }
 
 // Apply filters to shelters
-function filterShelters(shelterList: Shelter[], filters: ShelterFilters): Shelter[] {
-  return shelterList.filter((shelter) => {
+function filterShelters(shelters: Shelter[], filters: ShelterFilters): Shelter[] {
+  return shelters.filter((shelter) => {
     // Type filter
     if (filters.type?.length && !filters.type.includes(shelter.type)) {
       return false;
