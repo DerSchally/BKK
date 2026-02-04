@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthStore, hasRole, hasMinimumRole } from '@/store';
 import type { UserRole } from '@/types';
@@ -16,11 +17,19 @@ export function RouteGuard({
   minimumRole,
   requireAuth = true,
 }: RouteGuardProps) {
-  const { user, isAuthenticated, _hasHydrated } = useAuthStore();
+  const { user, isAuthenticated } = useAuthStore();
   const location = useLocation();
 
+  // Use Zustand v5 persist API for hydration detection
+  const [hasHydrated, setHasHydrated] = useState(useAuthStore.persist.hasHydrated());
+
+  useEffect(() => {
+    const unsub = useAuthStore.persist.onFinishHydration(() => setHasHydrated(true));
+    return unsub;
+  }, []);
+
   // Wait for Zustand persist to hydrate from localStorage before checking auth
-  if (!_hasHydrated) {
+  if (!hasHydrated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center space-y-4">
