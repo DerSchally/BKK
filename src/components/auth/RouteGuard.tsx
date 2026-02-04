@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthStore, hasRole, hasMinimumRole } from '@/store';
 import type { UserRole } from '@/types';
+import { Shield } from 'lucide-react';
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -15,8 +16,20 @@ export function RouteGuard({
   minimumRole,
   requireAuth = true,
 }: RouteGuardProps) {
-  const { user, isAuthenticated } = useAuthStore();
+  const { user, isAuthenticated, _hasHydrated } = useAuthStore();
   const location = useLocation();
+
+  // Wait for Zustand persist to hydrate from localStorage before checking auth
+  if (!_hasHydrated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="text-center space-y-4">
+          <Shield className="h-12 w-12 text-blue-600 mx-auto animate-pulse" />
+          <p className="text-slate-500">Laden...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Check if authentication is required
   if (requireAuth && !isAuthenticated) {
